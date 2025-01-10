@@ -17,12 +17,14 @@
     home-manager,
     ...
     } @ inputs: let
-      inherit (self) outputs;
+      lib = nixpkgs.lib;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      inherit (self) outputs;
     in {
     nixosConfigurations = {
-      h4ck = nixpkgs.lib.nixosSystem {
+      h4ck = lib.nixosSystem {
+        inherit system;
         specialArgs = {inherit inputs outputs;};
         modules = [ ./configuration.nix ];
       };
